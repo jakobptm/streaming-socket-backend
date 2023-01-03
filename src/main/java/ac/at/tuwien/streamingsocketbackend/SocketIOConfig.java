@@ -24,7 +24,7 @@ public class SocketIOConfig {
 
     public SocketIOConfig() {
         this.SOCKET_HOST = "localhost";
-        this.SOCKET_PORT = 4444;
+        this.SOCKET_PORT = 8085;
     }
 
     public int getPort() {

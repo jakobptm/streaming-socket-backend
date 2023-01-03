@@ -32,7 +32,7 @@ public class SocketIOController {
         @Override
         public void onConnect(SocketIOClient socketIOClient) {
             log.info("Client connected: " + socketIOClient.getSessionId());
-            socketIOClient.sendEvent("getAllDashboardData", generateRandomValues().toString());
+            socketIOClient.sendEvent("getAllDashboardData", generateRandomValues());
         }
     };
 
@@ -46,8 +46,8 @@ public class SocketIOController {
     public DataListener<String> onGetAllDashboardData = new DataListener<String>() {
         @Override
         public void onData(SocketIOClient socketIOClient, String message, AckRequest ackRequest) throws Exception {
-            log.warning("Message received: " + message);
-            server.getBroadcastOperations().sendEvent(generateRandomValues().toString());
+            log.info("Message received: " + message);
+            socketIOClient.sendEvent("getAllDashboardData", generateRandomValues().toString());
         }
     };
 

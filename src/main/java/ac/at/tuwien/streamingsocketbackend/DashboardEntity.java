@@ -108,13 +108,6 @@ public class DashboardEntity {
 
     @Override
     public String toString() {
-        return "DashboardEntity{" +
-                "id='" + id + '\'' +
-                ", title='" + title + '\'' +
-                ", lat=" + lat +
-                ", lng=" + lng +
-                ", distance=" + distance +
-                ", avgSpeed=" + avgSpeed +
-                '}';
+        return "{\"id\":\"" + id + "\",\"title\":\"" + title + "\",\"lat\":" + lat + ",\"lng\":" + lng + ",\"distance\":" + distance + ",\"avgSpeed\":" + avgSpeed + "}";
     }
 }
