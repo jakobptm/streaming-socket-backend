@@ -16,23 +16,23 @@ import java.util.logging.Logger;
 @Component
 public class SocketIOConfig {
 
-    private final String host;
+    private final String SOCKET_HOST;
 
-    private final int port;
+    private final int SOCKET_PORT;
 
     private SocketIOServer server;
 
     public SocketIOConfig() {
-        this.host = "localhost";
-        this.port = 8080;
+        this.SOCKET_HOST = "localhost";
+        this.SOCKET_PORT = 8080;
     }
 
     public int getPort() {
-        return port;
+        return SOCKET_PORT;
     }
 
     public String getHost() {
-        return host;
+        return SOCKET_HOST;
     }
 
     Logger log = Logger.getLogger(SocketIOConfig.class.getName());
@@ -40,10 +40,10 @@ public class SocketIOConfig {
     @Bean
     public SocketIOServer socketIOServer() {
         Configuration config = new Configuration();
-        config.setHostname(host);
-        config.setPort(port);
+        config.setHostname(SOCKET_HOST);
+        config.setPort(SOCKET_PORT);
 
-        log.info("Starting socket.io server at " + host + ":" + port);
+        log.info("Starting socket.io server at " + SOCKET_HOST + ":" + SOCKET_PORT);
         server = new SocketIOServer(config);
         server.start();
         log.info("Socket.io server started");
