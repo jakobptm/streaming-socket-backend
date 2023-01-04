@@ -3,6 +3,7 @@ package ac.at.tuwien.streamingsocketbackend;
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
+import com.corundumstudio.socketio.annotation.OnEvent;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
@@ -42,6 +43,12 @@ public class SocketIOController {
             log.info("Client disconnected: " + socketIOClient.getSessionId());
         }
     };
+
+    @OnEvent("getAllDashboardData")
+    public void onMessage (SocketIOClient client) {
+        log.info("Client " + client.getSessionId() + " requested data");
+        client.sendEvent("getAllDashboardData", generateRandomValues());
+    }
 
     public DataListener<String> onGetAllDashboardData = new DataListener<String>() {
         @Override

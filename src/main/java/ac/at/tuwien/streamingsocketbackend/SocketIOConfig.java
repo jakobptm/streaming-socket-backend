@@ -1,10 +1,7 @@
 package ac.at.tuwien.streamingsocketbackend;
 
 import com.corundumstudio.socketio.Configuration;
-import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
-import com.corundumstudio.socketio.listener.ConnectListener;
-import com.corundumstudio.socketio.listener.DisconnectListener;
 import jakarta.annotation.PreDestroy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -47,22 +44,6 @@ public class SocketIOConfig {
         server = new SocketIOServer(config);
         server.start();
         log.info("Socket.io server started");
-
-        server.addConnectListener(new ConnectListener() {
-            @Override
-            public void onConnect(SocketIOClient socketIOClient) {
-                log.info("Client connected: " + socketIOClient.getSessionId());
-            }
-        });
-
-        server.addDisconnectListener(new DisconnectListener() {
-            @Override
-            public void onDisconnect(SocketIOClient socketIOClient) {
-                socketIOClient.getNamespace().getAllClients().forEach(client -> {
-                    log.info("Client disconnected: " + client.getSessionId());
-                });
-            }
-        });
 
         return server;
     }
