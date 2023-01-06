@@ -3,7 +3,6 @@ package ac.at.tuwien.streamingsocketbackend;
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
-import com.corundumstudio.socketio.annotation.OnEvent;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
@@ -24,7 +23,7 @@ public class SocketIOController {
         this.server = server;
         this.server.addConnectListener(onUserConnectWithSocket);
         this.server.addDisconnectListener(onUserDisconnectWithSocket);
-        this.server.addEventListener("getAllDashboardData", String.class, onGetAllDashboardData);
+        this.server.addEventListener("getAllDashboardData", String.class, getAllDashboardData);
     }
 
     Logger log = Logger.getLogger(SocketIOController.class.getName());
@@ -33,7 +32,6 @@ public class SocketIOController {
         @Override
         public void onConnect(SocketIOClient socketIOClient) {
             log.info("Client connected: " + socketIOClient.getSessionId());
-            socketIOClient.sendEvent("getAllDashboardData", generateRandomValues());
         }
     };
 
@@ -44,16 +42,10 @@ public class SocketIOController {
         }
     };
 
-    @OnEvent("getAllDashboardData")
-    public void onMessage (SocketIOClient client) {
-        log.info("Client " + client.getSessionId() + " requested data");
-        client.sendEvent("getAllDashboardData", generateRandomValues());
-    }
-
-    public DataListener<String> onGetAllDashboardData = new DataListener<String>() {
+    public DataListener<String> getAllDashboardData = new DataListener<String>() {
         @Override
         public void onData(SocketIOClient socketIOClient, String message, AckRequest ackRequest) throws Exception {
-            log.info("Message received: " + message);
+            log.info("Client " + socketIOClient.getSessionId() + " requested data");
             socketIOClient.sendEvent("getAllDashboardData", generateRandomValues().toString());
         }
     };
